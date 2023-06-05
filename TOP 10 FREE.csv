@@ -1,0 +1,17 @@
+name,a_genre,p_genre,avg_rating,Avg_rating (0.25),Lifespan (Months), gross (over lifespan) , net (over lifespan) ,breakeven(months)
+PewDiePie's Tuber Simulator,Games,Casual,4.90,5.00,132," $660,000.00 "," $503,000.00 ",6.25
+The Guardian,News,News & Magazines,4.85,4.75,126," $630,000.00 "," $479,000.00 ",6.25
+"Egg, Inc.",Games,Simulation,4.85,4.75,126," $630,000.00 "," $479,000.00 ",6.25
+ASOS,Shopping,Shopping,4.85,4.75,126," $630,000.00 "," $479,000.00 ",6.25
+Domino's Pizza USA,Food & Drink,Food & Drink,4.85,4.75,126," $630,000.00 "," $479,000.00 ",6.25
+Geometry Dash Lite,Games,Arcade,4.75,4.75,126," $630,000.00 "," $479,000.00 ",6.25
+Fernanfloo,Games,Arcade,4.65,4.75,126," $630,000.00 "," $479,000.00 ",6.25
+Bible,Reference,Books & Reference,4.60,4.50,120," $600,000.00 "," $455,000.00 ",6.25
+Solitaire,Games,Card,4.60,4.50,120," $600,000.00 "," $455,000.00 ",6.25
+Narcos: Cartel Wars,Games,Strategy,4.60,4.50,120," $600,000.00 "," $455,000.00 ",6.25
+,,,,,,,,
+,,,,,,,,
+Purchase Price," $25,000.00 ",,,,,,,
+Monthly Cost," $1,000.00 ",,,,,,,
+Monthly Gross," $5,000.00 ",,,,,,,
+Monthly Net," $4,000.00 ",,,,,,,

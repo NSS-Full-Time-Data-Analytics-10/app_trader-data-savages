@@ -1,40 +1,19 @@
 -----APPLE total 7197 rows
 SELECT *
-FROM play_store_apps
-WHERE name = 'Airbnb';
-SELECT DISTINCT name, *
 FROM app_store_apps;
 
 ------ PLAY total 10840 rows, DISTINCT NAME 9659
 SELECT *
 FROM play_store_apps;
-SELECT DISTINCT name
-FROM play_store_apps;
+SELECT *
+FROM play_store_apps
+WHERE name = 'Instagram';
 
 -----JOINING BOTH WHOLE TABLES
 SELECT *
 FROM app_store_apps
 	INNER JOIN play_store_apps
 	USING (name);
-
----APPLE CONTENT
-SELECT name, price::money, content_rating, review_count::integer, primary_genre
-FROM app_store_apps;
-
----PLAY CONTENT 
-SELECT name, price::money, content_rating, review_count::integer, genres 
-FROM play_store_apps;
-----------------------PLAYING WITH CTEs
-
-WITH apple AS (SELECT name, price::money, content_rating, review_count::integer, primary_genre
-			   FROM app_store_apps), 
-	 play AS  (SELECT name, price::money, content_rating, review_count::integer, genres 
-			   FROM play_store_apps)
-SELECT * 
-	FROM apple
-UNION 
-SELECT *
-	FROM play;
 
 ---------------- AVG RATING ACROSS BOTH STORES by darina
 SELECT AVG(rating) AS average_rating
@@ -43,36 +22,79 @@ FROM (
   UNION ALL
   SELECT rating FROM play_store_apps
 ) AS both_apps;
------------- CTE WHERE ALL APPLE PRICE IS 0
-WITH apple AS (SELECT name, price::money, content_rating, review_count::integer, primary_genre
+---*-*-*-*-*-*-*-*-*-*BASE TABLE*-*-*-*-*-*-*-*-*
+WITH apple AS (SELECT name, price::money AS a_price, rating AS a_rating, content_rating AS a_content_rating, 
+			   review_count::integer AS a_review_count, primary_genre AS a_genre
 			   FROM app_store_apps), 
-	 play AS  (SELECT name, price::money, content_rating, review_count::integer, genres 
+	 play AS  (SELECT name, price::money AS p_price, rating AS p_rating, content_rating AS p_content_rating, 
+			   review_count::integer AS p_review_count, genres AS p_genre
 			   FROM play_store_apps)
 SELECT *
 FROM apple 
-WHERE apple.price = '0.00';
---------------- USING CTE AND UNION
-WITH apple AS (SELECT name, price::money, content_rating, review_count::integer, primary_genre
-			   FROM app_store_apps),
-	 play AS  (SELECT name, price::money, content_rating, review_count::integer, genres 
-			   FROM play_store_apps)	   
-SELECT * 
-FROM apple
-
-UNION
-
+	INNER JOIN play
+	USING(name);
+-------------WHERE BOTH RATINGS ARE >4.0 = 294 APPS
+WITH apple AS (SELECT DISTINCT name, price::money AS a_price, rating AS a_rating, content_rating AS a_content_rating, 
+			   review_count::integer AS a_review_count, primary_genre AS a_genre
+			   FROM app_store_apps), 
+	 play AS  (SELECT DISTINCT name, price::money AS p_price, rating AS p_rating, content_rating AS p_content_rating, 
+			   review_count::integer AS p_review_count, genres AS p_genre
+			   FROM play_store_apps)
 SELECT *
-FROM play
-WHERE ;
--------------SHARED APPS WHERE PRICE = $0 -*-*- COUNT 474
+FROM apple 
+	INNER JOIN play
+	USING(name)
+WHERE p_rating >4.0 AND a_rating >4.0;
+---------------WHERE RATINGS ARE >= 4.5 AND FREE =132 APPS
+WITH apple AS (SELECT DISTINCT name, price::money AS a_price, rating AS a_rating, content_rating AS a_content_rating, 
+			   review_count::integer AS a_review_count, primary_genre AS a_genre
+			   FROM app_store_apps), 
+	 play AS  (SELECT DISTINCT name, price::money AS p_price, rating AS p_rating, content_rating AS p_content_rating, 
+			   review_count::integer AS p_review_count, genres AS p_genre
+			   FROM play_store_apps)
 SELECT *
+FROM apple 
+	INNER JOIN play
+	USING(name)
+--WHERE p_rating >=4.5 AND a_rating >=4.5
+	WHERE  a_price = '$0.00' 
+	AND p_price = '$0.00';
+------------------------72 
+WITH apple AS (SELECT DISTINCT name, price::money AS a_price, rating AS a_rating, content_rating AS a_content_rating, 
+			   primary_genre AS a_genre
+			   FROM app_store_apps), 
+	 play AS  (SELECT DISTINCT name, price::money AS p_price, rating AS p_rating, content_rating AS p_content_rating, 
+			   genres AS p_genre
+			   FROM play_store_apps)
+SELECT name, a_genre, p_genre, (a_rating + p_rating)/2 AS avg_rating
+FROM apple 
+	INNER JOIN play
+	USING(name)
+WHERE p_rating >=4.5 AND a_rating >=4.5
+	AND a_price = '$0.00' 
+	AND p_price = '$0.00'
+ORDER BY avg_rating DESC
+LIMIT 10
+------apple 23 play 119
+SELECT DISTINCT primary_genre
 FROM app_store_apps
-	INNER JOIN play_store_apps
-	USING (name)
-WHERE app_store_apps.price = 0
-	AND play_store_apps.price ='0'
--------------
 
-SELECT AVG(price::numeric)
+SELECT DISTINCT genres
 FROM play_store_apps
+-------
+WITH apple AS (SELECT DISTINCT name, price::money AS a_price, rating AS a_rating, content_rating AS a_content_rating, 
+			   primary_genre AS a_genre
+			   FROM app_store_apps), 
+	 play AS  (SELECT DISTINCT name, price::money AS p_price, rating AS p_rating, content_rating AS p_content_rating, 
+			   genres AS p_genre
+			   FROM play_store_apps)
+SELECT name, a_genre, (a_rating + p_rating)/2 AS avg_rating 
+FROM apple 
+	INNER JOIN play
+	USING(name)
+WHERE a_price = '$0.00' 
+	AND p_price = '$0.00'
+	AND name LIKE 'Airbnb'OR name LIKE 'Uber' OR name LIKE 'Instagram' OR name LIKE 'DoorDash - Food Delivery' 
+
+
 
