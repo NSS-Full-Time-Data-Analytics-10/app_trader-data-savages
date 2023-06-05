@@ -1,0 +1,5 @@
+name,a_price,a_rating,a_content_rating,a_genre,p_price,p_rating,p_content_rating,p_genre
+Airbnb,$0.00 ,4,4+,Travel,$0.00 ,4.4,Everyone,Travel & Local
+DoorDash - Food Delivery,$0.00 ,4.5,4+,Food & Drink,$0.00 ,4.5,Everyone,Food & Drink
+Instagram,$0.00 ,4.5,12+,Photo & Video,$0.00 ,4.5,Teen,Social
+Uber,$0.00 ,3,4+,Travel,$0.00 ,4.2,Everyone,Maps & Navigation
